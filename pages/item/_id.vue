@@ -10,13 +10,22 @@
       <nuxt-link to="'user/' + item.by">{{item.by}}</nuxt-link>
       <p class="i">{{item.time | timeSince}}</p>
     </div>
-    <div class="comment">will show comments here</div>
+    <ul>
+      <Comment v-for="id in item.kids" :key="id" :id="id"></Comment>
+    </ul>
   </div>
 </template>
 
 <script>
 import axios from "~/plugins/axios.js";
+import Comment from "~/components/Comment.vue";
 export default {
+  components: { Comment },
+  data() {
+    return {
+      item: {}
+    };
+  },
   async asyncData({ route }) {
     const response = await axios.get(`item/${route.params.id}.json`);
     return { item: response.data };
